@@ -10,11 +10,16 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.12"
 aiogram = "^3.4.1"
+requests = "^2.31.0"
+python-dotenv = "^1.0.1"
 
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-bot = "bot.scripts.bot:main"
+bot = "bot.scripts.main:main"
