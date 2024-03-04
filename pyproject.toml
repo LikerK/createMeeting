@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "createmeeting"
+version = "0.1.0"
+description = ""
+authors = ["likerk <nagorniykirill@gmail.com>"]
+packages = [
+	{ include = "bot" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiogram = "^3.4.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+bot = "bot.scripts.bot:main"
