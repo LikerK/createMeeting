@@ -6,3 +6,6 @@ build: lint
 
 lint:
 	poetry run flake8 bot
+
+run:
+	poetry run bot

@@ -5,7 +5,7 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 from dotenv import load_dotenv, find_dotenv
-from bot.src.metting import create_meeting, get_last_meeting, delete_meeting
+from bot.src.meeting import create_meeting, get_last_meeting, delete_meeting
 from bot.src.keyboards import create_btn, del_keyboard, delete_btn
 
 load_dotenv(find_dotenv())
