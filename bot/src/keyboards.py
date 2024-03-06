@@ -14,7 +14,8 @@ create_btn = ReplyKeyboardMarkup(
 delete_btn = ReplyKeyboardMarkup(
     keyboard=[
        [KeyboardButton(text='Удалить конференцию')]
-    ]
+    ],
+    resize_keyboard=True
 )
 
 del_keyboard = ReplyKeyboardRemove()

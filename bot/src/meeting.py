@@ -45,6 +45,7 @@ def get_token():
 
 
 def get_content(data):
+    print(data)
     return {
         "id": data["id"],
         "meeting_url": data["join_url"],
@@ -66,7 +67,7 @@ def get_last_meeting():
     if not meetings:
         return []
     last_metting = meetings[-1]
-    id = last_metting['uuid']
+    id = last_metting['id']
     resp = requests.get(f"{api_base_url}/meetings/{id}", headers=headers)
     data = resp.json()
     print(get_content(data))

@@ -36,15 +36,14 @@ async def get_meeting(message: Message):
         if not meeting:
             meeting = create_meeting('New', '60', date, time)
         else:
-            await message.answer('Конференция уже была создана до \
-                                 этого, осторожнее!')
+            await message.answer('''Конференция уже была создана до
+этого, осторожнее!''')
         id = str(meeting['id'])
         id = f'{id[0:3]} {id[3:7]} {id[7:13]}'
         await message.answer(f'{id}\n{meeting['password']}')
         await message.answer(meeting['meeting_url'], reply_markup=del_keyboard)
-        await message.answer('Не забудьте удалить конференцию после \
-                             того, как используете ее',
-                             reply_markup=delete_btn)
+        await message.answer('''**Не забудьте удалить конференцию после
+того, как используете ее**''', reply_markup=delete_btn)
 
     except TypeError as error:
         # But not all the types is supported to be copied so need to handle it
