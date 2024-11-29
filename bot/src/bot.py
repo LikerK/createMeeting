@@ -22,12 +22,6 @@ dp = Dispatcher()
 dp.include_router(user_private_router)
 dp.include_router(admin_router)
 
-# @dp.message(CommandStart())
-# async def command_start_handler(message: Message):
-#     await message.answer("Привет! Для того, чтобы создать \
-#                          конференцию просто нажми на кнопку.",
-#                          reply_markup=create_btn)
-
 
 # @dp.message(F.text.lower() == 'создать конференцию')
 # async def get_meeting(message: Message):
@@ -93,7 +87,8 @@ async def start():
         if user.isAdmin:
             bot.my_admins_list.append(user.id)
 
-    if not rootId in bot.my_admins_list:
-        bot.my_admins_list.append(rootId)
+    # if not rootId in bot.my_admins_list:
+    #     bot.my_admins_list.append(rootId)
     print(bot.my_users_list)
     await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATES)
+    

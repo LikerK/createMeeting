@@ -33,13 +33,11 @@ async def orm_delete_user(session: AsyncSession, user_id: int):
 #     return result.scalar()
 
 
-# async def orm_update_product(session: AsyncSession, product_id: int, data):
-#     query = update(Product).where(Product.id == product_id).values(
-#         name=data["name"],
-#         description=data["description"],
-#         price=float(data["price"]),
-#         image=data["image"],)
-#     await session.execute(query)
-#     await session.commit()
-
-
+async def orm_update_user(session: AsyncSession, user_id: int, data):
+    query = update(User).where(User.id == user_id).values(
+        name=data.name,
+        id=data.id,
+        isAdmin=data.isAdmin
+    )
+    await session.execute(query)
+    await session.commit()

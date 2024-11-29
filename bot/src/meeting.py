@@ -4,6 +4,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
+
 # replace with your client ID
 client_id = os.getenv('CLIENT_ID')
 
@@ -15,7 +16,6 @@ client_secret = os.getenv('CLIENT_SECRET')
 
 auth_token_url = "https://zoom.us/oauth/token"
 api_base_url = "https://api.zoom.us/v2"
-
 
 def filter_type_meeting(meeting):
     if meeting['type'] == 2:
@@ -43,9 +43,9 @@ def get_token():
     }
     return headers
 
+headers = get_token()
 
 def get_content(data):
-    print(data)
     return {
         "id": data["id"],
         "meeting_url": data["join_url"],
@@ -59,23 +59,25 @@ def get_content(data):
 
 
 def get_last_meeting():
-    headers = get_token()
     resp = requests.get(f"{api_base_url}/users/me/meetings", headers=headers)
     data = resp.json()
     meetings = list(filter(filter_type_meeting, data['meetings']))
-    print(meetings)
     if not meetings:
         return []
     last_metting = meetings[-1]
     id = last_metting['id']
     resp = requests.get(f"{api_base_url}/meetings/{id}", headers=headers)
     data = resp.json()
-    print(get_content(data))
     return get_content(data)
+
+def get_data_meeting(id):
+    resp = requests.get(f'{api_base_url}/meetings/{id}', headers=headers)
+    data = resp.json()
+    return data
 
 
 def create_meeting(topic, duration, start_date, start_time):
-    headers = get_token()
+    print(headers)
     payload = {
         "topic": topic,
         "duration": duration,
@@ -95,5 +97,4 @@ def create_meeting(topic, duration, start_date, start_time):
 
 
 def delete_meeting(id):
-    headers = get_token()
     requests.delete(f"{api_base_url}/meetings/{id}", headers=headers)

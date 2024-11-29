@@ -3,7 +3,7 @@ from aiogram.types import (
 )
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
-def get_keyboard(*btns, sizes=(1)):
+def get_keyboard(*btns, sizes=[1]):
     keyboard = ReplyKeyboardBuilder()
     for btn in btns:
         keyboard.add(KeyboardButton(text=btn))
