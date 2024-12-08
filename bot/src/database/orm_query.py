@@ -1,10 +1,9 @@
 from sqlalchemy import select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from bot.src.database.models import User
 
 
-async def orm_add_user(session:AsyncSession, data:dict):
+async def orm_add_user(session: AsyncSession, data: dict):
     obj = User(
         id=data['id'],
         name=data["name"],
@@ -17,9 +16,10 @@ async def orm_add_user(session:AsyncSession, data:dict):
 
 async def orm_get_users(session: AsyncSession):
     query = select(User)
+
     result = await session.execute(query)
     return result.scalars().all()
-
+ 
 
 async def orm_delete_user(session: AsyncSession, user_id: int):
     query = delete(User).where(User.id == user_id)

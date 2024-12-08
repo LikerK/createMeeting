@@ -1,83 +1,27 @@
 import requests
-import os
-from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
-
-
-# replace with your client ID
-client_id = os.getenv('CLIENT_ID')
-
-# replace with your account ID
-account_id = os.getenv('ACCOUNT_ID')
-
-# replace with your client secret
-client_secret = os.getenv('CLIENT_SECRET')
-
-auth_token_url = "https://zoom.us/oauth/token"
 api_base_url = "https://api.zoom.us/v2"
 
-def filter_type_meeting(meeting):
-    if meeting['type'] == 2:
-        return True
-    return False
+# def get_content(data):
+#     return {
+#         "id": data["id"],
+#         "meeting_url": data["join_url"],
+#         "password": data["password"],
+#         "meetingTime": data["start_time"],
+#         "purpose": data["topic"],
+#         "duration": data["duration"],
+#         "message": "Success",
+#         "status": 1
+#         }
 
 
-def get_token():
-    data = {
-        "grant_type": "account_credentials",
-        "account_id": account_id,
-        "client_secret": client_secret
-    }
-    response = requests.post(auth_token_url,
-                             auth=(client_id, client_secret),
-                             data=data)
-    if response.status_code != 200:
-        return None
-    response_data = response.json()
-    access_token = response_data["access_token"]
-
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json",
-    }
-    return headers
-
-headers = get_token()
-
-def get_content(data):
-    return {
-        "id": data["id"],
-        "meeting_url": data["join_url"],
-        "password": data["password"],
-        "meetingTime": data["start_time"],
-        "purpose": data["topic"],
-        "duration": data["duration"],
-        "message": "Success",
-        "status": 1
-        }
-
-
-def get_last_meeting():
-    resp = requests.get(f"{api_base_url}/users/me/meetings", headers=headers)
-    data = resp.json()
-    meetings = list(filter(filter_type_meeting, data['meetings']))
-    if not meetings:
-        return []
-    last_metting = meetings[-1]
-    id = last_metting['id']
-    resp = requests.get(f"{api_base_url}/meetings/{id}", headers=headers)
-    data = resp.json()
-    return get_content(data)
-
-def get_data_meeting(id):
-    resp = requests.get(f'{api_base_url}/meetings/{id}', headers=headers)
+def get_data_meeting(id, header):
+    resp = requests.get(f'{api_base_url}/meetings/{id}', headers=header)
     data = resp.json()
     return data
 
 
-def create_meeting(topic, duration, start_date, start_time):
-    print(headers)
+def create_meeting(topic, duration, start_date, start_time, header):
     payload = {
         "topic": topic,
         "duration": duration,
@@ -86,15 +30,14 @@ def create_meeting(topic, duration, start_date, start_time):
     }
 
     resp = requests.post(f"{api_base_url}/users/me/meetings",
-                         headers=headers,
+                         headers=header,
                          json=payload)
 
     if resp.status_code != 201:
+        print(resp)
         return None
-    response_data = resp.json()
-
-    return get_content(response_data)
+    return resp.json()
 
 
-def delete_meeting(id):
-    requests.delete(f"{api_base_url}/meetings/{id}", headers=headers)
+# def delete_meeting(id):
+#     requests.delete(f"{api_base_url}/meetings/{id}", headers=headers)
