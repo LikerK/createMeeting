@@ -20,18 +20,20 @@ dp.include_router(user_private_router)
 dp.include_router(admin_router)
 
 
-async def on_startup(bot):
-    await create_db()
+# async def on_startup(bot):
+#     print(1)
+#     # await create_db()
 
 
-async def on_shutdown(bot):
-    print('бот лег')
+# async def on_shutdown(bot):
+#     print('бот лег')
 
 
 async def start():
     bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
-    dp.startup.register(on_startup)
-    dp.shutdown.register(on_shutdown)
+    # dp.startup.register(on_startup)
+    await create_db()
+    # dp.shutdown.register(on_shutdown)
     baseSession = DataBaseSession(session_pool=session_maker)
     dp.update.middleware(baseSession)
     session = baseSession.session_pool()
